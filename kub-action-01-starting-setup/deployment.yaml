@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+# KIND - what you want to create (what object of kubernetis you want to create)
+kind: Deployment
+# METADATA - name of the object you are creating
+metadata:
+  name: second-app-deployment
+  labels:
+    group: example
+# SPEC - specification of this Deployment - a meat of this object
+spec:
+  replicas: 1
+  selector:
+    matchLabels:  # which PODs belong to this Deployment
+      app: second-app
+      tier: backend
+    # matchExpressions:  # better way to select matching labels - how to select
+    #   - {key: app, operator: In, values: [second-app, first-app]}
+  template:  # here define a POD to be created
+    metadata:
+      labels:  # key: value pairs
+        app: second-app
+        tier: backend
+    spec:  # specification of individual POD
+      containers: 
+        - name: second-node
+          image: partorg/kub-first-app:2
+          # policy to pull the latest image (Always or Never)
+          imagePullPolicy: Always
+          livenessProbe:  # check if container is healthy or not with this parameter
+            httpGet:  # send GET request to the app to the path:
+              path: /
+              port: 8080
+            # define how often it should be sent
+            periodSeconds: 10
+            # how long it should take to check health the first time
+            initialDelaySeconds: 5
+        # - name: ...
+        #   image: ...
+
+

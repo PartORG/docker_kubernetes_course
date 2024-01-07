@@ -1,0 +1,36 @@
+apiVersion: v1  # for service - core/ can be ommited
+kind: Service
+metadata:
+  name: backend
+spec:
+  selector:  # here it has directly key: value pairs
+    app: second-app
+  ports:
+    - protocol: 'TCP'
+      port: 80  # outside world port
+      targetPort: 8080  # port exposed or used in the container
+    # - protocol: 'TCP'
+    #   port: 433
+    #   targetPort: 433
+  type: LoadBalancer
+  
+---  # three dashes - indicate that new object definition goes next
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: second-app-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:  # which PODs belong to this Deployment
+      app: second-app
+      tier: backend
+  template:  # here define a POD to be created
+    metadata:
+      labels:  # key: value pairs
+        app: second-app
+        tier: backend
+    spec:  # specification of individual POD
+      containers: 
+        - name: second-node
+          image: partorg/kub-first-app

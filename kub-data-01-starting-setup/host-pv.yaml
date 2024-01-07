@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: host-pv
+spec:
+  capacity: 
+    storage: 1Gi
+  volumeMode: Filesystem
+  storageClassName: standard
+  accessModes:
+    - ReadWriteOnce  # can be mounted by a sigle node (claimed by multiple nodes, but they must be in one node)
+    # - ReadOnlyMany  #  Read Onlycan be claimed by multiple nodes from multiple pods
+    # - ReadWriteMany
+  hostPath: 
+    path: /data
+    type: DirectoryOrCreate

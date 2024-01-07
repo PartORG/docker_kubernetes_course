@@ -1,0 +1,65 @@
+# version of docker-compose specification to use
+version: "3.8"
+
+# provide your containers here as children of services
+services:
+  # provide labels/names for your containers - you choose it
+  # here --> our app will use three containers
+  mongodb:
+    # configuration for each container
+    image: 'mongo'
+    volumes:
+      - data:/data/db
+    # set your container name:
+    container_name: mongodb
+    # environment:
+    #   # - MONGO_INITDB_ROOT_USERNAME=max
+    #   # - MONGO_INITDB_ROOT_PASSWORD=secret
+    #   # or like this:
+    #   MONGO_INITDB_ROOT_USERNAME: max
+    #   MONGO_INITDB_ROOT_PASSWORD: secret
+    # can read .env file:
+    env_file:
+      - ./env/mongo.env
+    # docker-compose automaticaly will add all images into a network
+    # so there is no need to provide network
+    # networks:
+    #   - goals-net
+
+  backend:
+    # simple version:
+    build: ./backend
+    # detailed version -- for detailed configuration of build
+    # build: 
+    #   context: ./backend
+    #   dockerfile: Dockerfile
+    #   args:
+    #     - some_args=value
+    ports:
+      - '80:80'
+    volumes:
+      - logs:/app/logs
+      - ./backend:/app
+      - /app/node_modules
+    env_file:
+      - ./env/backend.env
+    # one container may depend on other container is up and running
+    depends_on:
+      - mongodb
+
+  frontend:
+    build: ./frontend
+    ports:
+      - '3000:3000'
+    volumes:
+      - ./frontend/src:/app/src
+    # configure interactive mode (-it) for container
+    stdin_open: true
+    tty: true
+    depends_on:
+      - backend
+
+# for Named Volumes must add this key
+volumes:
+  data: # no data after
+  logs:
