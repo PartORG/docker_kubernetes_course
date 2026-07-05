@@ -2,233 +2,180 @@
 
 A set of projects connected with use of Docker and Kubernetes. All these folders correspond to a part of a Udemy Complete Docker and Kubernetes Course.
 
-[![Language](https://img.shields.io/badge/language-PHP-blue.svg)] [![License](https://img.shields.io/badge/license-ISC-green.svg)] [![Tests](https://img.shields.io/badge/tests-passing-brightgreen.svg)] [![Docker](https://img.shields.io/docker/build/partorg/docker_kubernetes_course.svg)] [![Kubernetes](https://img.shields.io/kubernetes/version/partorg/docker_kubernetes_course.svg)] [![Framework](https://img.shields.io/badge/framework-Express.js-yellow.svg)]
+[![Language](https://img.shields.io/github/languages/top/PartORG/docker_kubernetes_course?style=flat-square)](https://github.com/PartORG/docker_kubernetes_course)
+[![License](https://img.shields.io/github/license/PartORG/docker_kubernetes_course?style=flat-square)](https://github.com/PartORG/docker_kubernetes_course/blob/main/LICENSE)
 
 ## Introduction
 
-This repository contains a collection of projects that demonstrate the use of Docker and Kubernetes. Each project corresponds to a part of a Udemy Complete Docker and Kubernetes Course, providing hands-on experience with containerization and orchestration.
+This repository contains a variety of projects designed to help you understand and master the use of Docker and Kubernetes. The primary language used is PHP, although some JavaScript/Node.js projects are also included. Each project includes a Dockerfile for containerization and often uses npm scripts for development and testing.
 
-The primary focus is on understanding how to build, run, and manage applications using Docker containers and Kubernetes clusters. The projects cover various aspects of Docker and Kubernetes, including:
+The course covers essential topics such as setting up Docker environments, deploying applications with Kubernetes, and managing data volumes. By working through these projects, you'll gain hands-on experience with both Docker and Kubernetes, preparing you to build robust and scalable applications in a containerized environment.
 
-- Building and running Node.js applications
-- Using Docker Compose for multi-container setups
-- Deploying applications to a Kubernetes cluster
-- Managing data volumes and persistent storage
+## Table of Contents
 
-These projects are designed to help developers gain practical experience with Docker and Kubernetes, making it easier to understand their capabilities and best practices.
+- [Features](#features)
+- [How It Works](#how-it-works)
+- [Technology Stack](#technology-stack)
+- [Requirements](#requirements)
+- [Installation](#installation)
+- [Configuration](#configuration)
+- [Quick Start](#quick-start)
+- [Usage](#usage)
+- [Project Structure](#project-structure)
+- [Development](#development)
+- [Testing](#testing)
+- [Limitations](#limitations)
 
 ## Features
 
-### Multi-Project Structure
+### Dockerized Applications
+Each project is designed to run in a Docker container, ensuring consistent environments across development and production.
 
-The repository is organized into multiple folders, each representing a different project. This structure makes it easy to navigate and find specific examples.
+### Kubernetes Deployment
+Some projects include Kubernetes deployment files (e.g., `deployment.yaml`, `service.yaml`), allowing you to deploy your applications on a Kubernetes cluster.
 
-### Real-world Examples
-
-Each project includes real-world examples of how to use Docker and Kubernetes in various scenarios. These examples are based on actual projects from the Udemy course.
-
-### Detailed Documentation
-
-Each project comes with detailed documentation that explains how to install, configure, and run the application. This documentation is written in a natural and informative style, avoiding marketing buzzwords and focusing on technical accuracy.
+### Data Volume Management
+Projects demonstrate how to manage data volumes using Docker, ensuring that application data persists even when containers are stopped or removed.
 
 ## How It Works
 
-The projects in this repository are built using Docker and Kubernetes. The architecture of each project is designed to demonstrate specific concepts and best practices.
+The projects in this repository follow a typical development workflow:
 
-### Docker Architecture
-
-Each project includes a `Dockerfile` that defines the container image. The `Dockerfile` specifies the base image, working directory, dependencies, and commands to run the application.
-
-For example, the `data-volumes-01-starting-setup/Dockerfile` is as follows:
-
-```dockerfile
-FROM node:14
-
-WORKDIR /app
-
-COPY package.json /app
-
-RUN npm install
-
-COPY . /app
-
-ARG DEFAULT_PORT=80
-ENV PORT $DEFAULT_PORT
-EXPOSE $PORT
-
-CMD [ "npm", "start" ]
-```
-
-### Kubernetes Architecture
-
-For projects that involve Kubernetes, a `docker-compose.yml` file is provided to define the multi-container setup. Additionally, Kubernetes deployment and service YAML files are included for deploying the application to a Kubernetes cluster.
-
-For example, the `compose-01-starting-setup/docker-compose.yml` is as follows:
-
-```yaml
-version: '3'
-services:
-  backend:
-    build: ./backend
-    ports:
-      - "3000:3000"
-    environment:
-      - MONGO_URL=mongodb://mongo:27017/goalapp
-  frontend:
-    build: ./frontend
-    ports:
-      - "8080:8080"
-```
+1. **Dockerfile**: Defines the container image with all necessary dependencies.
+2. **npm Scripts**: Provides commands for starting the application (`npm run start`) and running tests (`npm run test`).
+3. **Environment Variables**: Configurable through environment variables to customize runtime settings.
 
 ## Technology Stack
 
 | Technology | Purpose |
 |------------|---------|
-| Node.js | Runtime environment for building server-side applications |
-| Express.js | Web application framework for Node.js |
-| Docker | Platform for developing, shipping, and running containerized applications |
-| Kubernetes | Open-source platform for automating deployment, scaling, and management of containerized applications |
-| MongoDB | NoSQL database used in the projects |
+| Node.js    | Runtime environment for JavaScript applications. |
+| Docker     | Containerization platform for packaging and deploying applications. |
+| Kubernetes | Orchestrates containerized applications at scale. |
+| Express.js | Web application framework for Node.js. |
+| body-parser | Middleware to parse incoming request bodies in a middleware before your handlers, available under the `req.body` property. |
 
 ## Requirements
 
-### Runtime Requirements
-
-- Docker
-- Kubernetes (optional)
-
-### Node.js Dependencies
-
-Each project has its own `package.json` file that lists the required dependencies. For example:
-
-```json
-{
-  "name": "data-volume-example",
-  "version": "1.0.0",
-  "dependencies": {
-    "body-parser": "^1.19.0",
-    "express": "^4.17.1"
-  }
-}
-```
+- Docker installed on your machine.
+- Basic knowledge of JavaScript and Node.js.
 
 ## Installation
 
-### Installing Docker and Kubernetes
+To install and run any project in this repository, follow these steps:
 
-To install Docker, follow the instructions on the [official Docker website](https://docs.docker.com/get-docker/).
+1. Clone the repository:
+   ```sh
+   git clone https://github.com/PartORG/docker_kubernetes_course.git
+   ```
 
-For Kubernetes, you can use a local cluster like Minikube or Kind, or deploy it to a cloud provider.
+2. Navigate to the desired project directory (e.g., `assignment-problem-1/node-app`).
 
-### Building and Running Projects
-
-Navigate to each project directory and run the following commands:
-
-```sh
-# Build the Docker image
-docker build -t <image-name> .
-
-# Run the Docker container
-docker run -p 3000:3000 <image-name>
-```
-
-For projects that involve Kubernetes, use `docker-compose` to start the multi-container setup:
-
-```sh
-# Start the services using docker-compose
-docker-compose up
-```
+3. Build and run the Docker container:
+   ```sh
+   docker build -t my-node-app .
+   docker run -p 8080:8080 my-node-app
+   ```
 
 ## Configuration
 
-### Environment Variables
-
-Some projects require environment variables to be set. These are typically defined in a `.env` file or passed as arguments when running the container.
-
-For example, the `data-volumes-01-starting-setup/.env` file might contain:
+Most projects use environment variables for configuration. For example, in `data-volumes-01-starting-setup`, you can set the port using an environment variable:
 
 ```sh
-DEFAULT_PORT=80
+docker run -e PORT=3000 -p 3000:3000 my-node-app
 ```
 
 ## Quick Start
 
-### Running a Node.js Application
-
-To run a Node.js application using Docker, follow these steps:
+To quickly start a project, use the following commands:
 
 1. Navigate to the project directory.
-2. Build the Docker image:
+2. Build and run the Docker container:
    ```sh
    docker build -t my-node-app .
-   ```
-3. Run the Docker container:
-   ```sh
-   docker run -p 3000:3000 my-node-app
-   ```
-
-### Running a Multi-Container Setup with Kubernetes
-
-To run a multi-container setup using Kubernetes, follow these steps:
-
-1. Navigate to the project directory.
-2. Start the services using `docker-compose`:
-   ```sh
-   docker-compose up
+   docker run -p 8080:8080 my-node-app
    ```
 
 ## Usage
 
-### Accessing Applications
+To interact with a running project, use the following commands:
 
-Once the application is running, you can access it via your web browser or API client.
-
-For example, if you are running a Node.js application on port 3000, you can access it at `http://localhost:3000`.
-
-### Interacting with Kubernetes
-
-To interact with a Kubernetes cluster, use the `kubectl` command-line tool. For example:
-
-```sh
-# Get list of pods
-kubectl get pods
-
-# Describe a pod
-kubectl describe pod <pod-name>
-```
+1. Access the application in your web browser at `http://localhost:8080`.
+2. Run tests (if available):
+   ```sh
+   docker exec -it <container_id> npm run test
+   ```
 
 ## Project Structure
 
-The repository is organized into multiple folders, each representing a different project.
-
-- `assignment-problem-1`: A simple Node.js application.
-- `compose-01-starting-setup`: A multi-container setup using Docker Compose.
-- `data-volumes-01-starting-setup`: An example of using data volumes with Docker.
-- `demo_js_app`: A basic JavaScript application.
-- `dummy_NodeJS_app`: A dummy Node.js application for demonstration purposes.
-- `kub-action-01-starting-setup`: A simple Node.js application deployed to Kubernetes.
-- `kub-data-01-starting-setup`: An example of using data volumes with Kubernetes.
-- `laravel-full-project`: A full Laravel project demonstrating advanced Docker and Kubernetes concepts.
+```
+PartORG/docker_kubernetes_course/
+├── README.md
+├── assignment-problem-1/
+│   ├── instructions.txt
+│   └── node-app/
+│       ├── Dockerfile
+│       ├── package.json
+│       └── server.js
+├── compose-01-starting-setup/
+│   ├── backend/
+│   │   ├── .dockerignore
+│   │   ├── Dockerfile
+│   │   ├── app.js
+│   │   ├── logs/access.log
+│   │   ├── models/goal.js
+│   │   ├── package.json
+│   │   └── ...
+│   ├── frontend/
+│   │   ├── .DS_Store
+│   │   ├── .dockerignore
+│   │   ├── Dockerfile
+│   │   ├── README.md
+│   │   ├── package-lock.json
+│   │   └── ...
+├── data-volumes-01-starting-setup/
+│   ├── Dockerfile
+│   ├── package.json
+│   └── server.js
+├── demo_js_app/
+│   ├── Dockerfile
+│   ├── app.mjs
+│   ├── helpers.mjs
+│   └── package.json
+├── dummy_NodeJS_app/
+│   ├── Dockerfile
+│   ├── dummy/
+│   │   └── test/
+│   │       └── test.txt
+│   ├── package.json
+│   └── public/styles.css
+└── kub-action-01-starting-setup/
+    ├── Dockerfile
+    ├── app.js
+    └── package.json
+```
 
 ## Development
 
-### Contributing
+To contribute to this repository, follow these steps:
 
-Contributions are welcome! If you find a bug or have an idea for improvement, please open an issue or submit a pull request.
+1. Fork the repository.
+2. Create a new branch for your feature or bug fix.
+3. Make your changes and commit them.
+4. Push your changes to your forked repository.
+5. Open a pull request.
 
-### Running Tests
+## Testing
 
-Some projects include tests. To run the tests, use the following command:
+Most projects include basic tests. To run tests, use the following command:
 
 ```sh
-npm test
+docker exec -it <container_id> npm run test
 ```
 
 ## Limitations
 
-- Some projects may require specific versions of Docker and Kubernetes.
-- The examples are based on a Udemy course and may not cover all possible scenarios.
+- Some projects may have limitations specific to their setup or dependencies.
+- Always ensure you have the necessary permissions and resources before running Docker containers.
 
-## License
-
-This project is licensed under the ISC license. See the [LICENSE](LICENSE) file for details.
+By following these guidelines, you'll be well on your way to mastering Docker and Kubernetes with this comprehensive course.
